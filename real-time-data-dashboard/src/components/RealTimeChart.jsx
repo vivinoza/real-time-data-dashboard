@@ -1,44 +1,36 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-} from "chart.js";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale);
+import HighchartsReact from "highcharts-react-official";
+import Highcharts from "highcharts";
 
 const RealTimeChart = ({ data }) => {
-  const chartData = {
-    labels: data.map((item) => `ID: ${item.id}`),
-    datasets: [
+  const chartOptions = {
+    chart: {
+      type: "column",
+    },
+    title: {
+      text: "Real-Time Data Chart",
+    },
+    xAxis: {
+      categories: data.map((item) => `ID: ${item.id}`),
+      title: {
+        text: "Post IDs",
+      },
+    },
+    yAxis: {
+      title: {
+        text: "Body Length",
+      },
+    },
+    series: [
       {
-        label: "Body Length",
+        name: "Body Length",
         data: data.map((item) => item.body.length),
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
+        color: "#7cb5ec",
       },
     ],
   };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { stepSize: 20 },
-      },
-    },
-  };
-
-  return <Bar data={chartData} options={options} />;
+  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
 };
 
 export default RealTimeChart;
